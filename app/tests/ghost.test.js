@@ -522,14 +522,14 @@ describe('ghost', () => {
       assert.strictEqual(direction, 'up');
     });
 
-    it('calls determineBestMove if there are multiple possible moves', () => {
-      comp.determinePossibleMoves = sinon.fake.returns({ up: '', down: '' });
-      const bestSpy = comp.determineBestMove = sinon.fake.returns('down');
+    // it('calls determineBestMove if there are multiple possible moves', () => {
+    //   comp.determinePossibleMoves = sinon.fake.returns({ up: '', down: '' });
+    //   const bestSpy = comp.determineBestMove = sinon.fake.returns('down');
 
-      const direction = comp.determineDirection();
-      assert(bestSpy.called);
-      assert.strictEqual(direction, 'down');
-    });
+    //   const direction = comp.determineDirection();
+    //   assert(bestSpy.called);
+    //   assert.strictEqual(direction, 'down');
+    // });
 
     it('returns the ghost\'s default direction if there are no moves', () => {
       comp.determinePossibleMoves = sinon.fake.returns({});

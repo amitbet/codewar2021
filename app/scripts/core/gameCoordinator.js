@@ -284,8 +284,10 @@ class GameCoordinator {
    * There is probably a better way to read all of these file names.
    */
   preloadAssets() {
-    this.initBotSelection();
+    
     return new Promise((resolve) => {
+      this.initBotSelection();
+      
       const loadingContainer = document.getElementById('loading-container');
       const loadingPacman = document.getElementById('loading-pacman');
       const loadingDotMask = document.getElementById('loading-dot-mask');
