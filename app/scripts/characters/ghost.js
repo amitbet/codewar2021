@@ -417,7 +417,7 @@ class Ghost {
     return bestMove;
   }
 
-  monbotGetDirection(name, possibleMoves, gridPosition, pacmanGridPosition) {
+  ghostBotGetDirection(ghostName, possibleMoves, gridPosition, pacmanGridPosition) {
     return possibleMoves['left'] ? 'left' : possibleMoves['down'] ? 'down' : possibleMoves['down'] ? 'right' : 'up';
   }
 
@@ -442,13 +442,13 @@ class Ghost {
     if (Object.keys(possibleMoves).length === 1) {
       [newDirection] = Object.keys(possibleMoves);
     } else if (Object.keys(possibleMoves).length > 1) {
-      //---------------bot addition ---------------
+      //------------------bot addition ------------------
       // Run bot to get best moves for monsters:
-      if (mode !== "scared" || mode !== "eyes") {
-        newDirection = this.monbotGetDirection(
+      if (mode !== "scared" && mode !== "eyes") {
+        newDirection = this.ghostBotGetDirection(
           name, possibleMoves, gridPosition, pacmanGridPosition
         );
-        //---------------bot addition ---------------
+        //---------------end bot addition ---------------
       } else {
         newDirection = this.determineBestMove(
           name, possibleMoves, gridPosition, pacmanGridPosition, mode,

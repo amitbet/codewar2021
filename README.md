@@ -53,3 +53,8 @@ this.mazeArray = [
     ['XXXXXXXXXXXXXXXXXXXXXXXXXXXX'],
 ];
 ```
+
+interested in the originsl ghost AI?
+read this:
+* https://gameinternals.com/understanding-pac-man-ghost-behavior
+* https://dev.to/code2bits/pac-man-patterns--ghost-movement-strategy-pattern-1k1a

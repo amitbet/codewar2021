@@ -1,11 +1,11 @@
 class Pacman {
-  constructor(scaledTileSize, mazeArray, characterUtil,monsters) {
+  constructor(scaledTileSize, mazeArray, characterUtil, ghosts) {
     this.scaledTileSize = scaledTileSize;
     this.mazeArray = mazeArray;
     this.characterUtil = characterUtil;
     this.animationTarget = document.getElementById('pacman');
     this.pacmanArrow = document.getElementById('pacman-arrow');
-    this.monsters = monsters;
+    this.ghosts = ghosts;
     this.reset();
   }
 
@@ -138,9 +138,23 @@ class Pacman {
     this.pacmanArrow.style.top = `${position.top - scaledTileSize}px`;
     this.pacmanArrow.style.left = `${position.left - scaledTileSize}px`;
   }
-  
-  pacbotGetDirection(position, direction, elapsedMs){
-    return 'right';
+
+  getRnd(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  pacbotGetDirection(position, direction, ghostPositions, elapsedMs) {
+    let r = this.getRnd(1, 4);
+    switch (r) {
+      case 1:
+        return 'right';
+      case 2:
+        return 'left';
+      case 3:
+        return 'up';
+      case 4:
+        return 'down';
+    }
   }
   /**
    * Handle Pacman's movement when he is snapped to the x-y grid of the Maze Array
@@ -148,11 +162,7 @@ class Pacman {
    * @returns {({ top: number, left: number})}
    */
   handleSnappedMovement(elapsedMs) {
-    //---------------bot addition ---------------
-    let botDirection = this.pacbotGetDirection(this.position, this.direction, elapsedMs);
-    
-    this.changeDirection(botDirection,true);
-    //---------------bot addition ---------------
+
 
     const desired = this.characterUtil.determineNewPositions(
       this.position, this.desiredDirection, this.velocityPerMs,
@@ -186,6 +196,7 @@ class Pacman {
    * @returns {({ top: number, left: number})}
    */
   handleUnsnappedMovement(gridPosition, elapsedMs) {
+
     const desired = this.characterUtil.determineNewPositions(
       this.position, this.desiredDirection, this.velocityPerMs,
       elapsedMs, this.scaledTileSize,
@@ -243,19 +254,44 @@ class Pacman {
    * @param {number} elapsedMs - The amount of MS that have passed since the last update
    */
   update(elapsedMs) {
+    let halt = (this.position.left == this.defaultPosition.left && this.position.top == this.defaultPosition.top && !this.moving);
+    const gridPosition = this.characterUtil.determineGridPosition(
+      this.position, this.scaledTileSize,
+    );
+    let isSnapped = (
+      JSON.stringify(this.position) ===
+      JSON.stringify(this.characterUtil.snapToGrid(gridPosition, this.direction, this.scaledTileSize))
+    );
+
+    //---------------bot addition ---------------
+
+    //runBot = (this.oldPosition.left != this.position.left || this.oldPosition.top != this.position.top);
+    //let runBot = true;
+
+    if (!halt && isSnapped) {
+      let ghostPositions = [];
+      for (let g of this.ghosts) {
+        ghostPositions.push(this.ghosts.position);
+      }
+      let botDirection = this.pacbotGetDirection(this.position, this.direction, ghostPositions, elapsedMs);
+
+      //  let halt = (this.position == this.defaultPosition && !this.moving);
+
+      this.changeDirection(botDirection, true);
+      //runBot = false;
+    }
+    //---------------bot addition ---------------
+
     this.oldPosition = Object.assign({}, this.position);
-
     if (this.moving) {
-      const gridPosition = this.characterUtil.determineGridPosition(
-        this.position, this.scaledTileSize,
-      );
 
-      if (JSON.stringify(this.position) === JSON.stringify(
-        this.characterUtil.snapToGrid(
-          gridPosition, this.direction, this.scaledTileSize,
-        ),
-      )) {
+
+
+
+      if (isSnapped) {
+
         this.position = this.handleSnappedMovement(elapsedMs);
+        // runBot = true;
       } else {
         this.position = this.handleUnsnappedMovement(gridPosition, elapsedMs);
       }
