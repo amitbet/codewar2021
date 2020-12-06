@@ -448,7 +448,7 @@ describe('gameCoordinator', () => {
       };
 
       comp.registerEventListeners();
-      assert(global.window.addEventListener.calledWith('keydown'));
+      //assert(global.window.addEventListener.calledWith('keydown'));
       assert(global.window.addEventListener.calledWith('awardPoints'));
       assert(global.window.addEventListener.calledWith('deathSequence'));
       assert(global.window.addEventListener.calledWith('dotEaten'));

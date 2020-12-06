@@ -1194,6 +1194,7 @@ class GameCoordinator {
     this.fruitDisplay = document.getElementById('fruit-display');
     this.mainMenu = document.getElementById('main-menu-container');
     this.gameStartButton = document.getElementById('game-start');
+    this.gameStartButton.disabled = true;
     this.pauseButton = document.getElementById('pause-button');
     this.soundButton = document.getElementById('sound-button');
     this.leftCover = document.getElementById('left-cover');
@@ -1293,11 +1294,11 @@ class GameCoordinator {
       this.soundButtonClick.bind(this),
     );
 
-    let btn = document.getElementById('load-src-button');
-    btn.addEventListener(
-      'click',
-      this.loadBotSources.bind(this),
-    );
+    // let btn = document.getElementById('load-src-button');
+    // btn.addEventListener(
+    //   'click',
+    //   this.loadBotSources.bind(this),
+    // );
 
     const head = document.getElementsByTagName('head')[0];
     const link = document.createElement('link');
@@ -1372,11 +1373,12 @@ class GameCoordinator {
     }
     document.getElementById('load-src-msg-1').style['color'] = this.srcIndices[1] === -1 ? '#' + this.colorsHex[1] : '#333';
     document.getElementById('load-src-msg-0').style['color'] = this.srcIndices[0] === -1 && this.srcIndices[1] !== -1 ? '#' + this.colorsHex[0] : '#333';
-    btn = document.getElementById('load-src-button');
+    btn = document.getElementById('game-start');
     readyToLoad = this.srcIndices[1] !== -1 && this.srcIndices[0] !== -1;
-    btn.style['border'] = readyToLoad ? '1px solid #444' : '1px solid #333';
-    btn.style['background-color'] = readyToLoad ? '#666' : '#202020';
-    btn.style['color'] = readyToLoad ? '#fff' : '#333';
+    btn.disabled = false;
+    //btn.style['border'] = readyToLoad ? '1px solid #444' : '1px solid #333';
+    btn.style['background-color'] = readyToLoad ? '#fcc73f' : '#000';
+    //btn.style['color'] = readyToLoad ? '#fff' : '#333';
     btn.style['cursor'] = readyToLoad ? 'pointer' : 'default';
     //btn.setAttribute('onclick', readyToLoad ? 'loadSources()' : '');
 
@@ -2027,7 +2029,7 @@ class GameCoordinator {
    * Register listeners for various game sequences
    */
   registerEventListeners() {
-    window.addEventListener('keydown', this.handleKeyDown.bind(this));
+//    window.addEventListener('keydown', this.handleKeyDown.bind(this));
     window.addEventListener('awardPoints', this.awardPoints.bind(this));
     window.addEventListener('deathSequence', this.deathSequence.bind(this));
     window.addEventListener('dotEaten', this.dotEaten.bind(this));
