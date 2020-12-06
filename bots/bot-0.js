@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
 	// utilities ---------------------------------------------------------------------------------------------------------
 
@@ -8,26 +8,33 @@
 
 	// bot definitions --------------------------------------------------------------------------------------------------------------
 
-	var ghostBot = function gbot(ghostName, possibleMoves, position, pacmanGridPosition) {
-	
-    };
-    
-    var pacBot = function pbot(position, direction, elapsedMs) {
-	
-    };
+	var ghostBot = function (ghostName, possibleMoves, gridPosition, pacmanGridPosition) {
+		return possibleMoves['left'] ? 'left' : possibleMoves['down'] ? 'down' : possibleMoves['down'] ? 'right' : 'up';
+	}
+
+	var pacBot = function (position, direction, ghostPositions, elapsedMs) {
+		let r = getRnd(1, 4);
+		switch (r) {
+			case 1:
+				return 'right';
+			case 2:
+				return 'left';
+			case 3:
+				return 'up';
+			case 4:
+				return 'down';
+		}
+	}
+
 	// init --------------------------------------------------------------------------------------------------------------
-	var bot = bots[1];
 	setTimeout(function registerArmy() {
-		window.registerArmy({
-			name: "PacBot Alpha",
-			icon: "robot",
-			cb: pacBot
-        });
-        window.registerArmy({
-			name: "Remember Clyde",
-			icon: "robot",
-			cb: ghostBot
-		});
-	}, 2000);
+		window.registerBot(
+			{
+				name: "PacBot Alpha: Remember Clyde",
+				icon: "robot",
+				pacFunc: pacBot,
+				ghostFunc: ghostBot
+			})
+	}, 0);
 
 })();

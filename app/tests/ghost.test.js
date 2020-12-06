@@ -29,7 +29,7 @@ beforeEach(() => {
     },
   };
 
-  comp = new Ghost(scaledTileSize, undefined, pacman, undefined, 1,
+  comp = new Ghost(undefined, scaledTileSize, undefined, pacman, undefined, 1,
     new CharacterUtil());
 });
 

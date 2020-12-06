@@ -18,7 +18,7 @@ class GameCoordinator {
     this.pausedText = document.getElementById('paused-text');
     this.bottomRow = document.getElementById('bottom-row');
     this.movementButtons = document.getElementById('movement-buttons');
-
+    this.bots = [];
     this.colorsRGB = [[0x11, 0xFF, 0xCC], [0xFF, 0x33, 0x33]];
     this.colorsHex = [this.getColorHexStr(this.colorsRGB[0]), this.getColorHexStr(this.colorsRGB[1])];
     this.loadSrcPanel = document.getElementById('load-src-panel');
@@ -95,13 +95,25 @@ class GameCoordinator {
     });
 
     this.gameStartButton.addEventListener(
-      'click',
-      this.startButtonClick.bind(this),
+      'click', async () => {
+        try {
+          await this.loadBotSources(100);
+          this.startButtonClick();
+        } catch (err) {
+          console.error(err);
+        }
+      }
     );
     this.pauseButton.addEventListener('click', this.handlePauseKey.bind(this));
     this.soundButton.addEventListener(
       'click',
       this.soundButtonClick.bind(this),
+    );
+
+    let btn = document.getElementById('load-src-button');
+    btn.addEventListener(
+      'click',
+      this.loadBotSources.bind(this),
     );
 
     const head = document.getElementsByTagName('head')[0];
@@ -112,6 +124,10 @@ class GameCoordinator {
     link.onload = this.preloadAssets.bind(this);
 
     head.appendChild(link);
+  }
+
+  registerBot(botObj) {
+    this.bots.push(botObj);
   }
 
   initBotSelection() {
@@ -143,6 +159,18 @@ class GameCoordinator {
     // this.playSound(this.selectSourceSound);
   };
 
+  addCssRule(cssText) {
+    var style;
+    style = document.createElement('style');
+    style.type = 'text/css';
+    if (style.styleSheet) {
+      style.styleSheet.cssText = cssText;
+    } else {
+      style.appendChild(document.createTextNode(cssText));
+    }
+    document.head.appendChild(style);
+  };
+
   markBotSrcLines() {
     var i, elm, readyToLoad, btn;
     var srcCount = document.getElementsByClassName("load-src-input").length;
@@ -168,20 +196,22 @@ class GameCoordinator {
     btn.style['color'] = readyToLoad ? '#fff' : '#333';
     btn.style['cursor'] = readyToLoad ? 'pointer' : 'default';
     //btn.setAttribute('onclick', readyToLoad ? 'loadSources()' : '');
-    btn.addEventListener(
-      'click',
-      this.loadBotSources.bind(this)
-    );
+
   };
 
-  loadBotSources() {
+  async loadBotSources(millis) {
     //that.playSound(that.startRoundSound);
     //that.htmlHelper.hideLoadSourcesPanel();
-    this.loadBotSource(this.srcIndices[0]);
-    //setTimeout(function() {
-    this.loadBotSource(this.srcIndices[1]);
-    //that.waitForArmies();
-    // }, 1000);
+
+    return new Promise((res, rej) => {
+      this.loadBotSource(this.srcIndices[0]);
+      this.loadBotSource(this.srcIndices[1]);
+      setTimeout(() => {
+        if (this.bots.length == 2)
+          res();
+        else rej("bots not loaded in allotted time: ", millis + "ms");
+      }, millis);
+    });
   };
 
   loadBotSource(index) {
@@ -284,10 +314,10 @@ class GameCoordinator {
    * There is probably a better way to read all of these file names.
    */
   preloadAssets() {
-    
+
     return new Promise((resolve) => {
       this.initBotSelection();
-      
+
       const loadingContainer = document.getElementById('loading-container');
       const loadingPacman = document.getElementById('loading-pacman');
       const loadingDotMask = document.getElementById('loading-dot-mask');
@@ -501,21 +531,28 @@ class GameCoordinator {
         this.collisionDetectionLoop();
       }, 500);
       let ghosts = [];
+      let pacBot = this.bots[0];
+      let ghostBot = this.bots[1];
+
       this.pacman = new Pacman(
         this.scaledTileSize,
         this.mazeArray,
         new CharacterUtil(),
-        ghosts
+        ghosts,
+        pacBot
       );
       this.blinky = new Ghost(
+        ghostBot,
         this.scaledTileSize,
         this.mazeArray,
         this.pacman,
         'blinky',
         this.level,
         new CharacterUtil(),
+
       );
       this.pinky = new Ghost(
+        ghostBot,
         this.scaledTileSize,
         this.mazeArray,
         this.pacman,
@@ -524,6 +561,7 @@ class GameCoordinator {
         new CharacterUtil(),
       );
       this.inky = new Ghost(
+        ghostBot,
         this.scaledTileSize,
         this.mazeArray,
         this.pacman,
@@ -533,6 +571,7 @@ class GameCoordinator {
         this.blinky,
       );
       // this.clyde = new Ghost(
+      //   ghostBot,
       //   this.scaledTileSize,
       //   this.mazeArray,
       //   this.pacman,

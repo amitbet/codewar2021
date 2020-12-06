@@ -1,11 +1,12 @@
 class Pacman {
-  constructor(scaledTileSize, mazeArray, characterUtil, ghosts) {
+  constructor(scaledTileSize, mazeArray, characterUtil, ghosts, botInfo) {
     this.scaledTileSize = scaledTileSize;
     this.mazeArray = mazeArray;
     this.characterUtil = characterUtil;
     this.animationTarget = document.getElementById('pacman');
     this.pacmanArrow = document.getElementById('pacman-arrow');
     this.ghosts = ghosts;
+    this.botInfo = botInfo;
     this.reset();
   }
 
@@ -144,17 +145,23 @@ class Pacman {
   }
 
   pacbotGetDirection(position, direction, ghostPositions, elapsedMs) {
-    let r = this.getRnd(1, 4);
-    switch (r) {
-      case 1:
-        return 'right';
-      case 2:
-        return 'left';
-      case 3:
-        return 'up';
-      case 4:
-        return 'down';
+    // let r = this.getRnd(1, 4);
+    // switch (r) {
+    //   case 1:
+    //     return 'right';
+    //   case 2:
+    //     return 'left';
+    //   case 3:
+    //     return 'up';
+    //   case 4:
+    //     return 'down';
+    // }
+    if (!this.botInfo || !this.botInfo.pacFunc) {
+      console.error("pacbot should be selected and initialized properly");
+      return;
     }
+
+    return this.botInfo.pacFunc(position, direction, ghostPositions, elapsedMs);
   }
   /**
    * Handle Pacman's movement when he is snapped to the x-y grid of the Maze Array
@@ -276,8 +283,8 @@ class Pacman {
       let botDirection = this.pacbotGetDirection(this.position, this.direction, ghostPositions, elapsedMs);
 
       //  let halt = (this.position == this.defaultPosition && !this.moving);
-
-      this.changeDirection(botDirection, true);
+      if (botDirection)
+        this.changeDirection(botDirection, true);
       //runBot = false;
     }
     //---------------bot addition ---------------

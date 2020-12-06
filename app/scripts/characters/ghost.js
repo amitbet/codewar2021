@@ -1,7 +1,8 @@
 class Ghost {
   constructor(
-    scaledTileSize, mazeArray, pacman, name, level, characterUtil, blinky,
+    botInfo, scaledTileSize, mazeArray, pacman, name, level, characterUtil, blinky,
   ) {
+    this.botInfo = botInfo;
     this.scaledTileSize = scaledTileSize;
     this.mazeArray = mazeArray;
     this.pacman = pacman;
@@ -418,7 +419,15 @@ class Ghost {
   }
 
   ghostBotGetDirection(ghostName, possibleMoves, gridPosition, pacmanGridPosition) {
-    return possibleMoves['left'] ? 'left' : possibleMoves['down'] ? 'down' : possibleMoves['down'] ? 'right' : 'up';
+
+    if (!this.botInfo || !this.botInfo.ghostFunc) {
+      console.error("ghostbot should be selected and initialized properly");
+      return;
+    }
+
+    return this.botInfo.ghostFunc(ghostName, possibleMoves, gridPosition, pacmanGridPosition);
+    //TODO: Check if this is an allowed move!!
+    
   }
 
   /**
