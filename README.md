@@ -58,3 +58,7 @@ interested in the originsl ghost AI?
 read this:
 * https://gameinternals.com/understanding-pac-man-ghost-behavior
 * https://dev.to/code2bits/pac-man-patterns--ghost-movement-strategy-pattern-1k1a
+
+
+Original PacManJS code:
+https://github.com/bward2/pacman-js
