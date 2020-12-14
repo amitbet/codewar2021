@@ -9,6 +9,7 @@ Pacman clone made with Javascript and HTML, weaponized for CHC CodeWar 2021
 
 No Installation required (not even NodeJS)
 
+![Pacman](https://github.com/amitbet/codewar2021/blob/master/ScrShot.png "A screenshot")
 ## Rulez:
 * Each team will submit two Bot procedures (a pacbot and a ghostbot), you are welcome to challenge yourselfs to a dual, or have friendly competitions to improve your bot abilities.
 * Bot code should be completely in JS, no Python/C# allowed (Vanill JS npm modules are ok including TensorflowJS)
