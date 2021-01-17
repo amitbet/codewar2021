@@ -7,6 +7,7 @@ class GameCoordinator {
     this.mazeCover = document.getElementById('maze-cover');
     this.pointsDisplay = document.getElementById('points-display');
     this.highScoreDisplay = document.getElementById('high-score-display');
+    this.timerDisplay = document.getElementById('timer-display');
     this.extraLivesDisplay = document.getElementById('extra-lives');
     this.fruitDisplay = document.getElementById('fruit-display');
     this.mainMenu = document.getElementById('main-menu-container');
@@ -25,6 +26,10 @@ class GameCoordinator {
     this.loadSrcPanel = document.getElementById('load-src-panel');
     this.mainMenu = document.getElementById('main-menu-container');
     this.srcIndices = [-1, -1];
+
+    this.appStartTime = Date.now();
+    this.timePerMatch = 30;
+    this.resetMatchTimer();
 
     this.mazeArray = [
       ['XXXXXXXXXXXXXXXXXXXXXXXXXXXX'],
@@ -125,6 +130,31 @@ class GameCoordinator {
     link.onload = this.preloadAssets.bind(this);
 
     head.appendChild(link);
+  }
+
+  startMatchTimer() {
+    this.timerDisplay.innerHTML = this.timeLeft;
+    this.timerInterval = setInterval(() => {
+      this.timeLeft -= 1;
+      this.timerDisplay.innerText = this.timeLeft;
+      console.log(">>>Time left: " + this.timeLeft);
+      if (this.timeLeft == 0) {
+        console.log(">>>Time ended");
+        this.MatchTimeOver();
+      }
+    }, 1000);
+  }
+  resetMatchTimer() {
+    this.timeLeft = this.timePerMatch;
+    this.timerDisplay.innerHTML = this.timeLeft;
+  }
+
+  stopMatchTimer() {
+    clearInterval(this.timerInterval);
+  }
+
+  MatchTimeOver() {
+    this.endSequence(false);
   }
 
   registerBot(botObj) {
@@ -652,7 +682,7 @@ class GameCoordinator {
    */
   init() {
     this.registerEventListeners();
-
+    this.appStartTime = Date.now();
     this.gameEngine = new GameEngine(this.maxFps, this.entityList);
     this.gameEngine.start();
   }
@@ -751,6 +781,9 @@ class GameCoordinator {
       this.allowPacmanMovement = true;
       this.pacman.moving = true;
 
+      this.timerDisplay.innerText = this.timeLeft;
+      this.startMatchTimer();
+
       this.ghosts.forEach((ghost) => {
         const ghostRef = ghost;
         ghostRef.moving = true;
@@ -764,6 +797,8 @@ class GameCoordinator {
         // this.clyde
       ];
       this.releaseGhost();
+
+
     }, duration);
   }
 
@@ -846,9 +881,9 @@ class GameCoordinator {
    * Register listeners for various game sequences
    */
   registerEventListeners() {
-//    window.addEventListener('keydown', this.handleKeyDown.bind(this));
+    //    window.addEventListener('keydown', this.handleKeyDown.bind(this));
     window.addEventListener('awardPoints', this.awardPoints.bind(this));
-    window.addEventListener('deathSequence', this.deathSequence.bind(this));
+    window.addEventListener('deathSequence', this.endSequence.bind(this));
     window.addEventListener('dotEaten', this.dotEaten.bind(this));
     window.addEventListener('powerUp', this.powerUp.bind(this));
     window.addEventListener('eatGhost', this.eatGhost.bind(this));
@@ -916,6 +951,7 @@ class GameCoordinator {
         this.movementButtons.style.filter = 'unset';
         this.pausedText.style.visibility = 'hidden';
         this.pauseButton.innerHTML = 'pause';
+        this.startMatchTimer();
         this.activeTimers.forEach((timer) => {
           timer.resume();
         });
@@ -926,6 +962,7 @@ class GameCoordinator {
         this.movementButtons.style.filter = 'blur(5px)';
         this.pausedText.style.visibility = 'visible';
         this.pauseButton.innerHTML = 'play_arrow';
+        this.stopMatchTimer();
         this.activeTimers.forEach((timer) => {
           timer.pause();
         });
@@ -975,7 +1012,8 @@ class GameCoordinator {
    * Animates Pacman's death, subtracts a life, and resets character positions if
    * the player has remaining lives.
    */
-  deathSequence() {
+  endSequence(isDeath = true) {
+
     this.allowPause = false;
     this.cutscene = true;
     this.soundManager.setCutscene(this.cutscene);
@@ -984,7 +1022,8 @@ class GameCoordinator {
     this.removeTimer({ detail: { timer: this.ghostCycleTimer } });
     this.removeTimer({ detail: { timer: this.endIdleTimer } });
     this.removeTimer({ detail: { timer: this.ghostFlashTimer } });
-
+    this.stopMatchTimer();
+    this.resetMatchTimer();
     this.allowKeyPresses = false;
     this.pacman.moving = false;
     this.ghosts.forEach((ghost) => {
@@ -997,8 +1036,13 @@ class GameCoordinator {
         const ghostRef = ghost;
         ghostRef.display = false;
       });
-      this.pacman.prepDeathAnimation();
-      this.soundManager.play('death');
+
+      if (isDeath) {
+        this.pacman.prepDeathAnimation();
+        this.soundManager.play('death');
+      } else {
+        this.soundManager.play('extra_life');
+      }
 
       if (this.lives > 0) {
         this.lives -= 1;
@@ -1008,6 +1052,7 @@ class GameCoordinator {
           new Timer(() => {
             this.allowKeyPresses = true;
             this.mazeCover.style.visibility = 'hidden';
+
             this.pacman.reset();
             this.ghosts.forEach((ghost) => {
               ghost.reset();

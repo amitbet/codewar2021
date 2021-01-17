@@ -739,7 +739,7 @@ describe('gameCoordinator', () => {
     });
 
     it('kills Pacman, subtracts a life, and resets the characters', () => {
-      comp.deathSequence();
+      comp.endSequence();
       assert(!comp.allowKeyPresses);
       assert(!comp.pacman.moving);
       assert(!comp.blinky.moving);
@@ -766,7 +766,7 @@ describe('gameCoordinator', () => {
       comp.timerExists = sinon.fake.returns(true);
       comp.removeTimer = sinon.fake();
 
-      comp.deathSequence();
+      comp.endSequence();
       assert(comp.removeTimer.called);
     });
 
@@ -774,7 +774,7 @@ describe('gameCoordinator', () => {
       comp.lives = 0;
       comp.gameOver = sinon.fake();
 
-      comp.deathSequence();
+      comp.endSequence();
 
       clock.tick(750);
       assert(comp.gameOver.called);

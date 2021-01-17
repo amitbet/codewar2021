@@ -1,7 +1,7 @@
 # pacMan of War Tasklist:
 
 ## Basic Bot driving:
-1. Add win/lose logic to game over
+1. Add win/lose logic to game over (scoring, high scores in local storage?)
 2. Add winner picutre display to game over logic
 3. Play the game and lookout for bugs introduced by bot logic insertion
 4. Look at ghost release delay when in ghost-home (it looks like it doesn't work)
