@@ -36,12 +36,12 @@ The tournament-master of the region will:
 
 ### 1x1 Rounds:
 Each X vs Y round will run like this:
-* 3 rounds will be played (randomized choices are encouraged to produce interesting patterns)
-* Each round will run until Pacman dies or the time is up
-* Each round will record Pacman’s points and the ghosts catch time (if they catch Pacman)
-* Best out of 3 wins, (points are recorded manually as tie-breakers)
-* At the end there is a tournament winner
-Best amongst Ghosts & Best Pacman may also be chosen according to points/times
+* 3 matchs will be played (randomized choices are encouraged to produce interesting patterns)
+* Each match will run until Pacman dies or the time is up
+* Each match will record Pacman’s points and the ghosts catch time (if they catch Pacman)
+* Best out of 3 wins, (points are recorded manually for later)
+* At the end there is a Tournament Winner, Best amongst Ghosts & Best Pacman may also be chosen according to points/times
+
 ---
 
 ## BoardMap:
