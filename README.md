@@ -14,9 +14,9 @@ No Installation required (not even NodeJS)
 ---
 ## Rulez:
 * Each team will submit two Bot procedures (a pacbot and a ghostbot), you are welcome to challenge yourself to a duel, or have friendly competitions to improve your bot abilities.
-* Bot code should be completely in JS, no Python/C# allowed (Vanilla JS npm modules are ok including TensorflowJS)
+* Bot code should be completely in JS, no Python/C# allowed (Vanilla JS npm modules are ok, including TensorflowJS)
 * No hacking the game framework, trying to monkeypatch or otherwise change the game engine is not allowed
-* a Bot should have adequate performance, it should not take up more than a few milliseconds to perform a decision.
+* A Bot should have adequate performance, it should not take up more than a few milliseconds to perform a decision.
 * A Full board map is provided below, use it to avoid the walls.
 * Have Fun!
 ---
@@ -44,6 +44,7 @@ Each X vs Y round will run like this:
 Best amongst Ghosts & Best Pacman may also be chosen according to points/times
 ---
 
+## BoardMap:
 ```
 this.mazeArray = [
       
@@ -80,7 +81,8 @@ this.mazeArray = [
     ['XXXXXXXXXXXXXXXXXXXXXXXXXXXX'],
 ];
 ```
-
+---
+## Links:
 Interested in the original ghost AI?
 read this:
 * https://gameinternals.com/understanding-pac-man-ghost-behavior
