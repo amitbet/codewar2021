@@ -12,10 +12,10 @@ No Installation required (not even NodeJS)
 <img src="https://github.com/amitbet/codewar2021/blob/master/ScrShot.png" alt="screen shot" width="300" style="width:200px;"/>
 
 ## Rulez:
-* Each team will submit two Bot procedures (a pacbot and a ghostbot), you are welcome to challenge yourselfs to a dual, or have friendly competitions to improve your bot abilities.
-* Bot code should be completely in JS, no Python/C# allowed (Vanill JS npm modules are ok including TensorflowJS)
+* Each team will submit two Bot procedures (a pacbot and a ghostbot), you are welcome to challenge yourself to a duel, or have friendly competitions to improve your bot abilities.
+* Bot code should be completely in JS, no Python/C# allowed (Vanilla JS npm modules are ok including TensorflowJS)
 * No hacking the game framework, trying to monkeypatch or otherwise change the game engine is not allowed
-* a Bot should have adequet performance, it should not take up more than a few milisecs to perform a descision.
+* a Bot should have adequate performance, it should not take up more than a few milliseconds to perform a decision.
 * A Full board map is provided below, use it to avoid the walls.
 * Have Fun!
 
@@ -56,7 +56,7 @@ this.mazeArray = [
 ];
 ```
 
-interested in the originsl ghost AI?
+Interested in the original ghost AI?
 read this:
 * https://gameinternals.com/understanding-pac-man-ghost-behavior
 * https://dev.to/code2bits/pac-man-patterns--ghost-movement-strategy-pattern-1k1a
