@@ -24,9 +24,12 @@ class GameCoordinator {
     this.colorsRGB = [[0x11, 0xFF, 0xCC], [0xFF, 0x33, 0x33]];
     this.colorsHex = [this.getColorHexStr(this.colorsRGB[0]), this.getColorHexStr(this.colorsRGB[1])];
     this.loadSrcPanel = document.getElementById('load-src-panel');
-    this.mainMenu = document.getElementById('main-menu-container');
+    //this.mainMenu = document.getElementById('main-menu-container');
     this.srcIndices = [-1, -1];
-
+    this.matchScores = {
+      ghosts: [],
+      pacman: []
+    };
     this.appStartTime = Date.now();
     this.timePerMatch = 30;
     this.resetMatchTimer();
@@ -103,7 +106,7 @@ class GameCoordinator {
     this.gameStartButton.addEventListener(
       'click', async () => {
         try {
-          await this.loadBotSources(100);
+          await this.loadBotSources(500);
           this.startButtonClick();
         } catch (err) {
           console.error(err);
@@ -137,9 +140,9 @@ class GameCoordinator {
     this.timerInterval = setInterval(() => {
       this.timeLeft -= 1;
       this.timerDisplay.innerText = this.timeLeft;
-      console.log(">>>Time left: " + this.timeLeft);
+      //console.log(">>>Time left: " + this.timeLeft);
       if (this.timeLeft == 0) {
-        console.log(">>>Time ended");
+        //console.log(">>>Time ended");
         this.MatchTimeOver();
       }
     }, 1000);
@@ -218,7 +221,7 @@ class GameCoordinator {
         elm.classList.remove('src-1');
       }
     }
-    document.getElementById('load-src-msg-1').style['color'] = this.srcIndices[1] === -1 ? '#' + this.colorsHex[1] : '#333';
+    document.getElementById('load-src-msg-1').style['color'] = this.srcIndices[1] === -1 ? '#' + this.colorsHex[0] : '#333';
     document.getElementById('load-src-msg-0').style['color'] = this.srcIndices[0] === -1 && this.srcIndices[1] !== -1 ? '#' + this.colorsHex[0] : '#333';
     btn = document.getElementById('game-start');
     readyToLoad = this.srcIndices[1] !== -1 && this.srcIndices[0] !== -1;
@@ -868,7 +871,7 @@ class GameCoordinator {
    */
   releaseGhost() {
     if (this.idleGhosts.length > 0) {
-      const delay = Math.max((8 - (this.level - 1) * 4) * 1000, 0);
+      const delay = Math.max((8 - (this.level) * 2) * 1000, 0);
 
       this.endIdleTimer = new Timer(() => {
         this.idleGhosts[0].endIdleMode();
@@ -1022,8 +1025,22 @@ class GameCoordinator {
     this.removeTimer({ detail: { timer: this.ghostCycleTimer } });
     this.removeTimer({ detail: { timer: this.endIdleTimer } });
     this.removeTimer({ detail: { timer: this.ghostFlashTimer } });
+
     this.stopMatchTimer();
+    if (!this.matchScores) {
+      this.matchScores = {};
+    }
+    if (!this.matchScores.pacman) {
+      this.matchScores.pacman = [];
+    }
+    if (!this.matchScores.ghosts) {
+      this.matchScores.ghosts = [];
+    }
+
+    this.matchScores.pacman.push(this.points);
+    this.matchScores.ghosts.push(this.timeLeft);
     this.resetMatchTimer();
+
     this.allowKeyPresses = false;
     this.pacman.moving = false;
     this.ghosts.forEach((ghost) => {
@@ -1073,6 +1090,15 @@ class GameCoordinator {
    */
   gameOver() {
     localStorage.setItem('highScore', this.highScore);
+
+    //note and reset collected scores
+    console.log(JSON.stringify(this.matchScores));
+    this.matchScores = {};
+
+    //reset bot selection
+    this.bots = [];
+    this.srcIndices = [-1, -1];
+    this.markBotSrcLines();
 
     new Timer(() => {
       this.displayText(

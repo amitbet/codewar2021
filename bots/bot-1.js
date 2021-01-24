@@ -9,7 +9,7 @@
 	// bot definitions --------------------------------------------------------------------------------------------------------------
 
 	var ghostBot = function (ghostName, possibleMoves, gridPosition, pacmanGridPosition) {
-		return possibleMoves['left'] ? 'left' : possibleMoves['down'] ? 'down' : possibleMoves['down'] ? 'right' : 'up';
+		return possibleMoves['left'] ? 'left' : possibleMoves['down'] ? 'down' : possibleMoves['right'] ? 'right' : 'up';
 	}
 
 	var pacBot = function (position, direction, ghostPositions, elapsedMs) {

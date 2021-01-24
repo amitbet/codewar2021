@@ -425,9 +425,14 @@ class Ghost {
       return;
     }
 
-    return this.botInfo.ghostFunc(ghostName, possibleMoves, gridPosition, pacmanGridPosition);
-    //TODO: Check if this is an allowed move!!
-    
+    let move = this.botInfo.ghostFunc(ghostName, possibleMoves, gridPosition, pacmanGridPosition);
+    // Check if this is an allowed move
+    if (possibleMoves[move]) {
+      return move;
+    }
+    else {
+      throw "bad move!";
+    }
   }
 
   /**
