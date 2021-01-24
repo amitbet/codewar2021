@@ -6,7 +6,7 @@
     "all": true
   },
   "scripts": {
-    "test": "nyc --check-coverage --lines 90 --functions 90 --branches 90 mocha app/tests",
+    "test": "nyc --check-coverage --lines 70 --functions 70 --branches 70 mocha app/tests",
     "coverage": "nyc report --reporter=text-lcov | node ./node_modules/coveralls/bin/coveralls.js",
     "lint": "./node_modules/.bin/eslint .",
     "serve": "node ./node_modules/http-server/bin/http-server"

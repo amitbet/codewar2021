@@ -897,13 +897,13 @@ class GameCoordinator {
 
     const directions = ['up', 'down', 'left', 'right'];
 
-    directions.forEach((direction) => {
-      document
-        .getElementById(`button-${direction}`)
-        .addEventListener('touchstart', () => {
-          this.changeDirection(direction);
-        });
-    });
+    // directions.forEach((direction) => {
+    //   document
+    //     .getElementById(`button-${direction}`)
+    //     .addEventListener('touchstart', () => {
+    //       this.changeDirection(direction);
+    //     });
+    // });
   }
 
   /**
@@ -927,9 +927,10 @@ class GameCoordinator {
     } else if (e.keyCode === 81) {
       // Q
       this.soundButtonClick();
-    } else if (this.movementKeys[e.keyCode]) {
-      this.changeDirection(this.movementKeys[e.keyCode]);
     }
+    // else if (this.movementKeys[e.keyCode]) {
+    //   this.changeDirection(this.movementKeys[e.keyCode]);
+    // }
   }
 
   /**
