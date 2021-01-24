@@ -459,7 +459,7 @@ describe('gameCoordinator', () => {
       assert(global.window.addEventListener.calledWith('releaseGhost'));
     });
 
-    it('registers directional button touch events', () => {
+    it.skip('registers directional button touch events', () => {
       comp.changeDirection = sinon.fake();
       global.document = {
         getElementById: sinon.stub().returns({
