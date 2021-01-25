@@ -568,7 +568,7 @@ class GameCoordinator {
     let pacBot = this.bots[0];
     let ghostBot = this.bots[1];
 
-    if (this.bots) {
+    if (this.bots && this.bots[1]) {
       console.log("pacman: " + this.bots[0].name);
       console.log("ghotst: " + this.bots[1].name);
     }
