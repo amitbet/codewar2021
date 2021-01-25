@@ -431,7 +431,8 @@ class Ghost {
       return move;
     }
     else {
-      throw "bad move!";
+      console.error("Ghostbot selected an illegal move, use the possibleMoves array, choosing another move.");
+      return Object.keys(possibleMoves)[0];
     }
   }
 

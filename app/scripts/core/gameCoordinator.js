@@ -240,7 +240,10 @@ class GameCoordinator {
 
     return new Promise((res, rej) => {
       this.loadBotSource(this.srcIndices[0]);
-      this.loadBotSource(this.srcIndices[1]);
+      setTimeout(() => {
+        this.loadBotSource(this.srcIndices[1]);
+      }, 10);
+
       setTimeout(() => {
         if (this.bots.length == 2)
           res();
@@ -561,13 +564,19 @@ class GameCoordinator {
     this.cutscene = true;
     this.highScore = localStorage.getItem('highScore');
 
+    // set bots
+    let pacBot = this.bots[0];
+    let ghostBot = this.bots[1];
+
+
+    console.log("pacman: " + this.bots[0].name);
+    console.log("ghotst: " + this.bots[1].name);
+
     if (this.firstGame) {
       setInterval(() => {
         this.collisionDetectionLoop();
       }, 500);
       let ghosts = [];
-      let pacBot = this.bots[0];
-      let ghostBot = this.bots[1];
 
       this.pacman = new Pacman(
         this.scaledTileSize,
@@ -631,8 +640,14 @@ class GameCoordinator {
         this.mazeDiv,
         100,
       );
+    } else {
+      this.pacman.botInfo = pacBot;
+      for (let k of Object.keys(this.ghosts)) {
+        let g = this.ghosts[k];
+        g.botInfo = ghostBot;
+      }
     }
-
+    
     this.entityList = [
       this.pacman,
       this.blinky,

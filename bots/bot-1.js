@@ -9,7 +9,9 @@
 	// bot definitions --------------------------------------------------------------------------------------------------------------
 
 	var ghostBot = function (ghostName, possibleMoves, gridPosition, pacmanGridPosition) {
-		return possibleMoves['left'] ? 'left' : possibleMoves['down'] ? 'down' : possibleMoves['right'] ? 'right' : 'up';
+		let r = getRnd(0, Object.keys(possibleMoves).length-1);
+		return Object.keys(possibleMoves)[r];
+		//return possibleMoves['left'] ? 'left' : possibleMoves['down'] ? 'down' : possibleMoves['right'] ? 'right' : 'up';
 	}
 
 	var pacBot = function (position, direction, ghostPositions, elapsedMs) {
@@ -30,7 +32,7 @@
 	setTimeout(function registerArmy() {
 		window.registerBot(
 			{
-				name: "PacBot Alpha: Remember Clyde",
+				name: "PacBot Beta: 30% Iron",
 				icon: "robot",
 				pacFunc: pacBot,
 				ghostFunc: ghostBot
