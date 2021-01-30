@@ -1,6 +1,4 @@
 # pacMan of War Tasklist:
-
-## Basic Bot driving:
 1. Add winner picutre display & scoring info for all 3 matches to game over
 2. Add team icons/names to gameboard
 3. Play the game and lookout for bugs introduced by bot logic insertion
@@ -11,7 +9,7 @@
 - [X] Think if ghost scatter mode should be controlled by the bot
 - [X] Check if a given ghost-bot move is allowed (check possibleMoves Array) no collision detection there...
 - [X] Disable key event handling (arrow keys should not work, only bots)
-- [X] Basic bot functions, for controlling both ghosts and pacma
+- [X] Basic bot functions, for controlling both ghosts and pacman
 - [X] Remove one ghost from the board
 - [X] Add ghost positions to pacbot function calls
 - [X] Fix tests, remove failures caused by bot changes
