@@ -1,13 +1,15 @@
 package main
 
+import "strconv"
+
 type Player struct {
 	Role  string `json:"role"`
-	Score string `json:"score"`
+	Score int    `json:"score"`
 	Name  string `json:"name"`
 }
 
 func (p Player) String() string {
-	return p.Role + ": " + p.Name + "\n" + p.Score + "\n"
+	return p.Role + ": " + p.Name + "\n" + strconv.Itoa(p.Score) + "\n"
 }
 
 type Match struct {
@@ -22,8 +24,8 @@ func (m Match) String() string {
 		"----------------------------\n"
 }
 func (m Match) Csv() string {
-	return "\"" + m.Player1.Name + "\",\"" + m.Player1.Role + "\"," + m.Player1.Score +
-		",\"" + m.Player2.Name + "\",\"" + m.Player2.Role + "\"," + m.Player2.Score
+	return "\"" + m.Player1.Name + "\",\"" + m.Player1.Role + "\"," + strconv.Itoa(m.Player1.Score) +
+		",\"" + m.Player2.Name + "\",\"" + m.Player2.Role + "\"," + strconv.Itoa(m.Player2.Score)
 
 }
 

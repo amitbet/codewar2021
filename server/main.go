@@ -29,7 +29,7 @@ func (f *fileHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		r.URL.Path = upath
 	}
 	fName := f.root + path.Clean(upath)
-	println("serving: ", fName)
+	//println("serving: ", fName)
 	http.ServeFile(w, r, fName)
 }
 
