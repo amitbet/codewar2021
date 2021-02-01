@@ -34,6 +34,7 @@ class GameCoordinator {
     this.timePerMatch = 30;
     this.resetMatchTimer();
 
+
     this.mazeArray = [
       ['XXXXXXXXXXXXXXXXXXXXXXXXXXXX'],
       ['XooooooooooooXXooooooooooooX'],
@@ -107,6 +108,8 @@ class GameCoordinator {
       'click', async () => {
         try {
           await this.loadBotSources(500);
+
+          //this.showArmyPanels();
           this.startButtonClick();
         } catch (err) {
           console.error(err);
@@ -134,6 +137,61 @@ class GameCoordinator {
 
     head.appendChild(link);
   }
+
+  addCssRule(cssText) {
+    var style;
+    style = document.createElement('style');
+    style.type = 'text/css';
+    if (style.styleSheet) {
+      style.styleSheet.cssText = cssText;
+    } else {
+      style.appendChild(document.createTextNode(cssText));
+    }
+    document.head.appendChild(style);
+  };
+
+  refreshBotPanels() {
+    if (!this.matchScores.ghosts) {
+      this.matchScores.ghosts = [];
+      this.matchScores.pacman = [];
+    }
+
+    var i;
+    let roundsPlayed = ((this.initialLives + 1) - (this.lives + 1)) || 0;
+    let ghostsTotalScore = this.matchScores.ghosts.reduce(function (a, b) {
+      return a + b;
+    }, 0);
+
+    let pacmanWins = this.matchScores.ghosts.filter(v => v === 0).length;
+
+    let pacmanTotalScore = this.matchScores.pacman[this.matchScores.pacman.length - 1] || 0;
+
+    // this.addCssRule('#army-vs-army-panel { text-align: center; display: inline;}');
+    this.addCssRule('.army-vs-army-icon {height: 100px; }');
+    this.addCssRule('.army-vs-army-name { font-size: 16px;}');
+    this.addCssRule('.army-vs-army-role { middle; font-size: 16px;}');
+    this.addCssRule('.army-vs-army-vs {margin: 20px;}');
+
+    for (i = 0; i < 2; i++) {
+      let role = "Pacman"
+      let score = pacmanTotalScore;
+      let wins = pacmanWins || 0;
+
+      if (i === 1) {
+        role = "Ghosts";
+        score = ghostsTotalScore;
+        wins = (roundsPlayed - pacmanWins);
+      }
+
+      document.getElementById('army-vs-army-role-' + i).innerHTML = role;
+      document.getElementById('army-vs-army-icon-' + i).setAttribute('src', 'icons/' + this.bots[i].icon + '.png');
+      document.getElementById('army-vs-army-name-' + i).innerHTML = this.bots[i].name;
+      document.getElementById('army-vs-army-score-' + i).innerHTML = "Wins:" + wins + " Score:" + score;
+    }
+    setTimeout(function () {
+      document.getElementById('army-vs-army-panel').style['display'] = 'block';
+    }, 20);
+  };
 
   startMatchTimer() {
     this.timerDisplay.innerHTML = this.timeLeft;
@@ -223,6 +281,8 @@ class GameCoordinator {
     }
     document.getElementById('load-src-msg-1').style['color'] = this.srcIndices[1] === -1 ? '#' + this.colorsHex[0] : '#333';
     document.getElementById('load-src-msg-0').style['color'] = this.srcIndices[0] === -1 && this.srcIndices[1] !== -1 ? '#' + this.colorsHex[0] : '#333';
+
+
     btn = document.getElementById('game-start');
     readyToLoad = this.srcIndices[1] !== -1 && this.srcIndices[0] !== -1;
     btn.disabled = false;
@@ -555,7 +615,8 @@ class GameCoordinator {
     this.activeTimers = [];
     this.points = 0;
     this.level = 1;
-    this.lives = 2;
+    this.initialLives = 2;
+    this.lives = this.initialLives;
     this.extraLifeGiven = false;
     this.remainingDots = 0;
     this.allowKeyPresses = true;
@@ -573,6 +634,7 @@ class GameCoordinator {
       console.log("ghotst: " + this.bots[1].name);
     }
 
+    this.refreshBotPanels();
 
     if (this.firstGame) {
       setInterval(() => {
@@ -1058,6 +1120,8 @@ class GameCoordinator {
     this.matchScores.pacman.push(this.points);
     this.matchScores.ghosts.push(this.timeLeft);
     this.resetMatchTimer();
+    //if (this.bots.length > 0)
+    //this.refreshBotPanels();
 
     this.allowKeyPresses = false;
     this.pacman.moving = false;
@@ -1081,12 +1145,14 @@ class GameCoordinator {
 
       if (this.lives > 0) {
         this.lives -= 1;
+        this.refreshBotPanels();
 
         new Timer(() => {
           this.mazeCover.style.visibility = 'visible';
           new Timer(() => {
             this.allowKeyPresses = true;
             this.mazeCover.style.visibility = 'hidden';
+
 
             this.pacman.reset();
             this.ghosts.forEach((ghost) => {
@@ -1098,11 +1164,32 @@ class GameCoordinator {
           }, 500);
         }, 2250);
       } else {
+        this.lives = -1;
+        this.refreshBotPanels();
+        this.lives = 0;
         this.gameOver();
       }
     }, 750);
   }
 
+  async postScoresToServer(pacbot, ghostbot, scores) {
+
+    let ghostsTotalScore = scores.ghosts.reduce(function (a, b) {
+      return a + b;
+    }, 0);
+
+    let pacmanTotalScore = scores.pacman[2]
+
+    let payload = (JSON.stringify({
+      "player1": { "name": pacbot.name, "role": "pacman", "score": pacmanTotalScore },
+      "player2": { "name": ghostbot.name, "role": "ghosts", "score": ghostsTotalScore }
+    }));
+    try {
+      return await fetch("/log-match", { method: "POST", body: payload });
+    } catch (err) {
+      console.error("problem logging scores to server: ", err);
+    }
+  }
   /**
    * Displays GAME OVER text and displays the menu so players can play again
    */
@@ -1111,6 +1198,7 @@ class GameCoordinator {
 
     //note and reset collected scores
     console.log(JSON.stringify(this.matchScores));
+    this.postScoresToServer(this.bots[0], this.bots[1], this.matchScores);
     this.matchScores = {};
 
     //reset bot selection

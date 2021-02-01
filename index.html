@@ -37,18 +37,7 @@
         <div><input type="text" class="load-src-input" id="src-1" src-ind="1" value="bots/bot-1.js" /></div>
         <!-- <div><button id="load-src-button" onclick="">FIGHT</button></div> -->
       </div>
-
-      <div id="army-vs-army-panel">
-        <div class="army-vs-army-line">
-          <img id="army-vs-army-icon-1" class="army-vs-army-icon" src="">
-          <div id="army-vs-army-name-1" class="army-vs-army-name"></div>
-        </div>
-        <div class="army-vs-army-vs">VS</div>
-        <div class="army-vs-army-line">
-          <div id="army-vs-army-name-0" class="army-vs-army-name"></div>
-          <img id="army-vs-army-icon-0" class="army-vs-army-icon" src="" />
-        </div>
-      </div>
+      <div> <BR /><BR /> </div>
 
       <button id='game-start' class='game-start'>
         PLAY
@@ -69,8 +58,22 @@
     <div id='paused-text' class='paused-text'>
       PAUSED
     </div>
+    <table style="align-items: center; bottom: 0;display: flex;height: 80%;width:300px;left: 0">
+      <tr>
 
+        <td class="army-vs-army-line">
+          <div id="army-vs-army-role-1" class="army-vs-army-role"></div>
+          <div id="army-vs-army-name-1" class="army-vs-army-name"></div>
+          <img id="army-vs-army-icon-1" class="army-vs-army-icon" src="" />
+          <div id="army-vs-army-score-1" class="army-vs-army-score"></div>
+        </td>
+
+      </tr>
+    </table>
     <div id='game-ui' class='game-ui'>
+
+
+
       <div id='row-top' class='row top'>
         <div class='column _25'>
           <div class='one-up'>1UP</div>
@@ -101,6 +104,26 @@
       <div id='bottom-row' class='row bottom'>
         <div id='extra-lives' class='extra-lives'></div>
         <div id='fruit-display' class='fruit-display'></div>
+
+      </div>
+    </div>
+
+    <table style="align-items: center; bottom: 0;display: flex;height: 80%;width:300px;right: 0;padding-left:20px;">
+      <tr>
+
+        <!-- <td class="army-vs-army-vs">VS</td> -->
+        <td class="army-vs-army-line">
+          <div id="army-vs-army-role-0" class="army-vs-army-role"></div>
+          <div id="army-vs-army-name-0" class="army-vs-army-name"></div>
+          <img id="army-vs-army-icon-0" class="army-vs-army-icon" src="" />
+          <div id="army-vs-army-score-0" class="army-vs-army-score"></div>
+        </td>
+      </tr>
+    </table>
+
+    <div id="army-vs-army-panel" >
+      <div>
+    
       </div>
     </div>
 
