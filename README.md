@@ -34,14 +34,25 @@ The tournament-master of the region will:
 * The tournament will have 2 stages: Regionals and Final, The Regionals will be conducted locally, and winners will continue to participate in the Final stage.
 * On the day of the event tournament-master will run the competition on his machine or a dedicated machine while live streaming.
 
-### 1x1 Rounds:
-Each X vs Y round will run like this:
-* 3 matchs will be played (randomized choices are encouraged to produce interesting patterns)
-* Each match will run until Pacman dies or the time is up
-* Each match will record Pacman’s points and the ghosts catch time (if they catch Pacman)
-* Best out of 3 wins, (points are recorded manually for later)
+### 1x1 Matches:
+Each X vs Y match will consist of 3 rounds (lives) in each role (6 rounds in total):
+* Each rounds will run until Pacman dies or the time is up
+* Each rounds will record Pacman’s points and the ghosts catch time (if they catch Pacman)
+* Best out of 3 wins the match, (points are recorded manually for later)
+* The roles are Reversed after 3 rounds (Y becomes pacman instead of X)
+* If there is a win for each bot, **pacman** scores will decide the outcome
 * At the end there is a Tournament Winner, Best amongst Ghosts & Best Pacman may also be chosen according to points/times
+  
+### Tips:
+* Randomized bot choices are encouraged to produce interesting patterns
+* Game parameters like round runtime and capsule effect length may be adjusted before the final competition
 
+### Scores:
+* The Pacman score is the points he earns from munching on dots
+* The Ghosts score is the time left on the clock when they catch pacman
+* The game server logs the total score for the whole match
+* Pacman and Ghost scores are not comaprable, so the only comparisons done will be P<=>P or G<=>G
+* Scores are meant as tie breakers and for Ghost/Pacman leader boards
 ---
 
 ## BoardMap:
