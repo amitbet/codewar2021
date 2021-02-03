@@ -36,12 +36,12 @@ The tournament-master of the region will:
 
 ### 1x1 Matches:
 Each X vs Y match will consist of 3 rounds (lives) in each role (6 rounds in total):
-* Each rounds will run until Pacman dies or the time is up
-* Each rounds will record Pacman’s points and the ghosts catch time (if they catch Pacman)
+* Each round will run until Pacman dies or the time is up
+* Each round will record Pacman’s points and the ghosts catch time (if they catch Pacman)
 * Best out of 3 wins the match, (points are recorded manually for later)
 * The roles are Reversed after 3 rounds (Y becomes pacman instead of X)
 * If there is a win for each bot, **pacman** scores will decide the outcome
-* At the end there is a Tournament Winner, Best amongst Ghosts & Best Pacman may also be chosen according to points/times
+* At the end there is a Tournament Winner, Best Ghosts & Best Pacman that are chosen according to points/times
   
 ### Tips:
 * Randomized bot choices are encouraged to produce interesting patterns
