@@ -278,7 +278,7 @@ class Pacman {
     if (!halt && isSnapped) {
       let ghostPositions = [];
       for (let g of this.ghosts) {
-        ghostPositions.push(this.ghosts.position);
+        ghostPositions.push(g.position);
       }
       let botDirection = this.pacbotGetDirection(this.position, this.direction, ghostPositions, elapsedMs);
 
