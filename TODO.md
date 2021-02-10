@@ -1,9 +1,9 @@
 # pacMan of War Tasklist:
 1. Add winner picutre display & scoring info for all 3 matches to game over
-2. Add team icons/names to gameboard
-3. Play the game and lookout for bugs introduced by bot logic insertion
-4. Create some simple bots and tests things out
+2. Create some simple bots and tests things out
 
+- [X] Play the game and lookout for bugs introduced by bot logic insertion
+- [X] Add team icons/names to gameboard
 - [X] Add win/lose logic to game over 
 - [X] Look at ghost release delay when in ghost-home (it looks like it doesn't work)
 - [X] Think if ghost scatter mode should be controlled by the bot

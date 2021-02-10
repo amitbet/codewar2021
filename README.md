@@ -13,19 +13,31 @@ No Installation required (not even NodeJS)
 
 ---
 ## Rulez:
-* Each team will submit two Bot procedures (a pacbot and a ghostbot), you are welcome to challenge yourself to a duel, or have friendly competitions to improve your bot abilities.
 * Bot code should be completely in JS, no Python/C# allowed (Vanilla JS npm modules are ok, including TensorflowJS)
 * No hacking the game framework, trying to monkeypatch or otherwise change the game engine is not allowed
 * A Bot should have adequate performance, it should not take up more than a few milliseconds to perform a decision.
 * A Full board map is provided below, use it to avoid the walls.
 * Have Fun!
 ---
+## Registration & Submission:
+### Registration:
+* On registeration please provide a **team name**, and a **member list** 
+* Teams can consist of 1-6 people but 2-4 is recommended (+not every member has to code, QA & Strategy members can be included as well)
+* Registration dates will be advertised on competition announcement 
+
+### Submission:
+* Each team will submit two Bot procedures (a pacbot and a ghostbot), you are welcome to challenge yourself to a duel, or have friendly competitions to improve your bot abilities. **Sample bots can be found in the ./bots directory**
+* A team Icon should be chosen to be displayed on screen - this can be chosen from the existing images in the repo, or a custom image can be submitted in jpeg and png formats. If no icon is chosen one would be assigned to you at random.
+
+---
 ## Gameplay:
 * The groups should submit the bots (both ghost and  pacman) a week before the tournament.
 * The tournament structure & each group’s positioning will be determined randomly and published
+
 ### Preperation: 
 The tournament-master of the region will:
   * Collect bots from all teams
+  * Collect any custom Team Icons from teams
   * Build the list of bots
   * Code review the bots 
   * Conduct a dry run to check for abnormal game behavior or cheats
