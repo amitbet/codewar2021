@@ -694,7 +694,7 @@ class GameCoordinator {
         this.pinky,
         //this.clyde,
       ]
-     // this.pacman.ghosts = ghosts;
+      this.pacman.ghosts = ghosts;
       this.fruit = new Pickup(
         'fruit',
         this.scaledTileSize,
