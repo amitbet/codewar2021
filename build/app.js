@@ -1567,14 +1567,14 @@ class GameCoordinator {
     this.addCssRule('.army-vs-army-vs {margin: 20px;}');
 
     for (i = 0; i < 2; i++) {
-      let role = "Pacman"
-      let score = pacmanTotalScore;
-      let wins = pacmanWins || 0;
+      let role = "Ghosts";
+      let score = ghostsTotalScore;
+      let wins = (roundsPlayed - pacmanWins);
 
       if (i === 1) {
-        role = "Ghosts";
-        score = ghostsTotalScore;
-        wins = (roundsPlayed - pacmanWins);
+        role = "Pacman"
+        score = pacmanTotalScore;
+        wins = pacmanWins || 0;
       }
 
       document.getElementById('army-vs-army-role-' + i).innerHTML = role;
@@ -2020,12 +2020,12 @@ class GameCoordinator {
     this.highScore = localStorage.getItem('highScore');
 
     // set bots
-    let pacBot = this.bots[0];
-    let ghostBot = this.bots[1];
+    this.pacBot = this.bots[1];
+    this.ghostBot = this.bots[0];
 
     if (this.bots && this.bots[1]) {
-      console.log("pacman: " + this.bots[0].name);
-      console.log("ghotst: " + this.bots[1].name);
+      console.log("pacman: " + this.pacBot.name);
+      console.log("ghotst: " + this.ghostBot.name);
     }
 
     this.refreshBotPanels();
@@ -2041,10 +2041,10 @@ class GameCoordinator {
         this.mazeArray,
         new CharacterUtil(),
         ghosts,
-        pacBot
+        this.pacBot
       );
       this.blinky = new Ghost(
-        ghostBot,
+        this.ghostBot,
         this.scaledTileSize,
         this.mazeArray,
         this.pacman,
@@ -2054,7 +2054,7 @@ class GameCoordinator {
 
       );
       this.pinky = new Ghost(
-        ghostBot,
+        this.ghostBot,
         this.scaledTileSize,
         this.mazeArray,
         this.pacman,
@@ -2063,7 +2063,7 @@ class GameCoordinator {
         new CharacterUtil(),
       );
       this.inky = new Ghost(
-        ghostBot,
+        this.ghostBot,
         this.scaledTileSize,
         this.mazeArray,
         this.pacman,
@@ -2073,7 +2073,7 @@ class GameCoordinator {
         this.blinky,
       );
       // this.clyde = new Ghost(
-      //   ghostBot,
+      //   this.ghostBot,
       //   this.scaledTileSize,
       //   this.mazeArray,
       //   this.pacman,
@@ -2099,10 +2099,10 @@ class GameCoordinator {
         100,
       );
     } else {
-      this.pacman.botInfo = pacBot;
+      this.pacman.botInfo = this.pacBot;
       for (let k of Object.keys(this.ghosts)) {
         let g = this.ghosts[k];
-        g.botInfo = ghostBot;
+        g.botInfo = this.ghostBot;
       }
     }
 
@@ -2592,7 +2592,7 @@ class GameCoordinator {
 
     //note and reset collected scores
     console.log(JSON.stringify(this.matchScores));
-    this.postScoresToServer(this.bots[0], this.bots[1], this.matchScores);
+    this.postScoresToServer(this.pacBot, this.ghostBot, this.matchScores);
     this.matchScores = {};
 
     //reset bot selection

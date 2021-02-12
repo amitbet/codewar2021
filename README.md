@@ -6,8 +6,10 @@ Pᗣᗧ•••MᗣN clone made with Javascript and HTML, weaponized for CHC Co
 ## How to run:
 * run ./static-server (.exe in windows)
 * open the browser to http://localhost:3000
-
 No Installation required (not even NodeJS)
+
+### using different ports:
+* ./static-server -p 54321
 
 <img src="https://github.com/amitbet/codewar2021/blob/master/ScrShot.png" alt="screen shot" width="300" style="width:200px;"/>
 
