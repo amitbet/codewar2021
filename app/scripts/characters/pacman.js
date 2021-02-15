@@ -144,7 +144,7 @@ class Pacman {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  pacbotGetDirection(position, direction, ghostPositions, elapsedMs) {
+  pacbotGetDirection(position, direction, ghostPositions, elapsedMs, ghostModes, mazeArr) {
     // let r = this.getRnd(1, 4);
     // switch (r) {
     //   case 1:
@@ -161,7 +161,7 @@ class Pacman {
       return;
     }
 
-    return this.botInfo.pacFunc(position, direction, ghostPositions, elapsedMs);
+    return this.botInfo.pacFunc(position, direction, ghostPositions, elapsedMs, ghostModes, mazeArr);
   }
   /**
    * Handle Pacman's movement when he is snapped to the x-y grid of the Maze Array
@@ -277,14 +277,16 @@ class Pacman {
 
     if (!halt && isSnapped) {
       let ghostPositions = [];
+      let ghostModes = [];
       for (let g of this.ghosts) {
         let ghostGridPosition = this.characterUtil.determineGridPosition(
           g.position, this.scaledTileSize,
         );
+        ghostModes.push(g.mode);
         ghostPositions.push(ghostGridPosition);
       }
 
-      let botDirection = this.pacbotGetDirection(gridPosition, this.direction, ghostPositions, elapsedMs);
+      let botDirection = this.pacbotGetDirection(gridPosition, this.direction, ghostPositions, elapsedMs, ghostModes, this.mazeArray);
 
       //  let halt = (this.position == this.defaultPosition && !this.moving);
       if (botDirection)

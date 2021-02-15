@@ -12,7 +12,7 @@
 		return possibleMoves['left'] ? 'left' : possibleMoves['down'] ? 'down' : possibleMoves['right'] ? 'right' : 'up';
 	}
 
-	var pacBot = function (position, direction, ghostPositions, elapsedMs) {
+	var pacBot = function (position, direction, ghostPositions, elapsedMs, ghostModes) {
 		let r = getRnd(1, 4);
 		switch (r) {
 			case 1:
