@@ -1,5 +1,6 @@
 class GameCoordinator {
   constructor() {
+    this.scoreRecord = {};
     this.gameUi = document.getElementById('game-ui');
     this.rowTop = document.getElementById('row-top');
     this.mazeDiv = document.getElementById('maze');
@@ -171,16 +172,29 @@ class GameCoordinator {
     this.addCssRule('.army-vs-army-name { font-size: 16px;}');
     this.addCssRule('.army-vs-army-role { middle; font-size: 16px;}');
     this.addCssRule('.army-vs-army-vs {margin: 20px;}');
-
+    this.scoreRecord.ghosts = {};
+    this.scoreRecord.pacman = {};
     for (i = 0; i < 2; i++) {
       let role = "Ghosts";
       let score = ghostsTotalScore;
       let wins = (roundsPlayed - pacmanWins);
+      this.scoreRecord.ghosts = {
+        name: this.ghostBot.name,
+        role,
+        score,
+        wins
+      }
 
       if (i === 1) {
         role = "Pacman"
         score = pacmanTotalScore;
         wins = pacmanWins || 0;
+        this.scoreRecord.pacman = {
+          name: this.pacBot.name,
+          role,
+          score,
+          wins
+        }
       }
 
       document.getElementById('army-vs-army-role-' + i).innerHTML = role;
@@ -1181,8 +1195,8 @@ class GameCoordinator {
     let pacmanTotalScore = scores.pacman[2]
 
     let payload = (JSON.stringify({
-      "player1": { "name": pacbot.name, "role": "pacman", "score": pacmanTotalScore },
-      "player2": { "name": ghostbot.name, "role": "ghosts", "score": ghostsTotalScore }
+      "player1": { "name": pacbot.name, "role": "pacman", "score": pacmanTotalScore, "wins": this.scoreRecord.pacman.wins },
+      "player2": { "name": ghostbot.name, "role": "ghosts", "score": ghostsTotalScore, "wins": this.scoreRecord.ghosts.wins }
     }));
     try {
       return await fetch("/log-match", { method: "POST", body: payload });

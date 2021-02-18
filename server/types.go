@@ -6,6 +6,7 @@ type Player struct {
 	Role  string `json:"role"`
 	Score int    `json:"score"`
 	Name  string `json:"name"`
+	Wins  int    `json:"wins"`
 }
 
 func (p Player) String() string {
@@ -24,8 +25,8 @@ func (m Match) String() string {
 		"----------------------------\n"
 }
 func (m Match) Csv() string {
-	return "\"" + m.Player1.Name + "\",\"" + m.Player1.Role + "\"," + strconv.Itoa(m.Player1.Score) +
-		",\"" + m.Player2.Name + "\",\"" + m.Player2.Role + "\"," + strconv.Itoa(m.Player2.Score)
+	return "\"" + m.Player1.Name + "\",\"" + m.Player1.Role + "\",\"" + strconv.Itoa(m.Player1.Wins) + "\"," + strconv.Itoa(m.Player1.Score) +
+		",\"" + m.Player2.Name + "\",\"" + m.Player2.Role + "\",\"" + strconv.Itoa(m.Player2.Wins) + "\"," + strconv.Itoa(m.Player2.Score)
 
 }
 
