@@ -209,6 +209,34 @@ class GameCoordinator {
 
   startMatchTimer() {
     this.timerDisplay.innerHTML = this.timeLeft;
+    if (!this.timerInterval) {
+      this.timerInterval = setInterval(() => {
+        this.timeLeft -= 1;
+        this.timerDisplay.innerText = this.timeLeft;
+        //console.log(">>>Time left: " + this.timeLeft);
+        if (this.timeLeft == 0) {
+          //console.log(">>>Time ended");
+          this.MatchTimeOver();
+        }
+      }, 1000);
+    } else {
+      this.resetMatchTimer();
+    }
+  }
+  resetMatchTimer() {
+    this.timeLeft = this.timePerMatch;
+    this.timerDisplay.innerHTML = this.timeLeft;
+  }
+
+  stopMatchTimer() {
+    clearInterval(this.timerInterval);
+    this.timerInterval = undefined;
+  }
+
+  pauseMatchTimer() {
+    clearInterval(this.timerInterval);
+  }
+  resumeMatchTimer() {
     this.timerInterval = setInterval(() => {
       this.timeLeft -= 1;
       this.timerDisplay.innerText = this.timeLeft;
@@ -218,14 +246,6 @@ class GameCoordinator {
         this.MatchTimeOver();
       }
     }, 1000);
-  }
-  resetMatchTimer() {
-    this.timeLeft = this.timePerMatch;
-    this.timerDisplay.innerHTML = this.timeLeft;
-  }
-
-  stopMatchTimer() {
-    clearInterval(this.timerInterval);
   }
 
   MatchTimeOver() {
@@ -853,6 +873,7 @@ class GameCoordinator {
   startGameplay(initialStart) {
     if (initialStart) {
       this.soundManager.play('game_start');
+      
     }
 
     this.scaredGhosts = [];
@@ -1043,23 +1064,23 @@ class GameCoordinator {
       this.soundManager.play('pause');
 
       if (this.gameEngine.started) {
+        this.resumeMatchTimer();
         this.soundManager.resumeAmbience();
         this.gameUi.style.filter = 'unset';
         this.movementButtons.style.filter = 'unset';
         this.pausedText.style.visibility = 'hidden';
         this.pauseButton.innerHTML = 'pause';
-        this.startMatchTimer();
         this.activeTimers.forEach((timer) => {
           timer.resume();
         });
       } else {
+        this.pauseMatchTimer();
         this.soundManager.stopAmbience();
         this.soundManager.setAmbience('pause_beat', true);
         this.gameUi.style.filter = 'blur(5px)';
         this.movementButtons.style.filter = 'blur(5px)';
         this.pausedText.style.visibility = 'visible';
         this.pauseButton.innerHTML = 'play_arrow';
-        this.stopMatchTimer();
         this.activeTimers.forEach((timer) => {
           timer.pause();
         });
@@ -1428,7 +1449,7 @@ class GameCoordinator {
       ghost.becomeScared();
     });
 
-    const powerDuration = Math.max((7 - this.level) * 1000, 0);
+    const powerDuration = 3; //Math.max((7 - this.level) * 1000, 0);
     this.ghostFlashTimer = new Timer(() => {
       this.flashGhosts(0, 9);
     }, powerDuration);
