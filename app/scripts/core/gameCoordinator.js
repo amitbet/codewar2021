@@ -870,10 +870,10 @@ class GameCoordinator {
    * Displays "Ready!" and allows Pacman to move after a breif delay
    * @param {Boolean} initialStart - Special condition for the game's beginning
    */
-  startGameplay(initialStart) {
+  startGameplay(initialStart, levelReset) {
     if (initialStart) {
       this.soundManager.play('game_start');
-      
+
     }
 
     this.scaredGhosts = [];
@@ -899,7 +899,8 @@ class GameCoordinator {
       this.pacman.moving = true;
 
       this.timerDisplay.innerText = this.timeLeft;
-      this.startMatchTimer();
+      if (!levelReset)
+        this.startMatchTimer();
 
       this.ghosts.forEach((ghost) => {
         const ghostRef = ghost;
@@ -985,7 +986,7 @@ class GameCoordinator {
    */
   releaseGhost() {
     if (this.idleGhosts.length > 0) {
-      const delay = Math.max((8 - (this.level) * 2) * 1000, 0);
+      const delay = Math.max((6 - (this.level) * 2) * 1000, 0);
 
       this.endIdleTimer = new Timer(() => {
         this.idleGhosts[0].endIdleMode();
@@ -1241,6 +1242,13 @@ class GameCoordinator {
     this.srcIndices = [-1, -1];
     this.markBotSrcLines();
 
+    this.allowKeyPresses = false;
+    this.pacman.moving = false;
+    this.ghosts.forEach((ghost) => {
+      const ghostRef = ghost;
+      ghostRef.moving = false;
+    });
+    
     new Timer(() => {
       this.displayText(
         {
@@ -1390,7 +1398,7 @@ class GameCoordinator {
                         this.remainingDots += 1;
                       }
                     });
-                    this.startGameplay();
+                    this.startGameplay(false,true);
                   }, 500);
                 }, 250);
               }, 250);

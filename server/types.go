@@ -10,7 +10,7 @@ type Player struct {
 }
 
 func (p Player) String() string {
-	return p.Role + ": " + p.Name + "\n" + strconv.Itoa(p.Score) + "\n"
+	return p.Role + ": " + p.Name + "(" + strconv.Itoa(p.Wins) + ")\n" + strconv.Itoa(p.Score) + "\n"
 }
 
 type Match struct {
@@ -39,7 +39,7 @@ func (g *GameRecord) AddMatch(m *Match) {
 }
 
 func (g *GameRecord) Csv() string {
-	csvStr := "Player1,Role,Score,Player2,Role,Score\n"
+	csvStr := "Player1,Role,Wins,Score,Player2,Role,Wins,Score\n"
 	for _, m := range g.MatchArr {
 		csvStr += m.Csv() + "\n"
 	}
