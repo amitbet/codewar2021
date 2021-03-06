@@ -275,7 +275,7 @@ class Pacman {
     //runBot = (this.oldPosition.left != this.position.left || this.oldPosition.top != this.position.top);
     //let runBot = true;
 
-    if (!halt && isSnapped) {
+    if (!halt && isSnapped && this.allowBotInput) {
       let ghostPositions = [];
       let ghostModes = [];
       for (let g of this.ghosts) {
@@ -286,12 +286,11 @@ class Pacman {
         ghostPositions.push(ghostGridPosition);
       }
 
-      let botDirection = this.pacbotGetDirection(gridPosition, this.direction, ghostPositions, elapsedMs, ghostModes, this.mazeArray);
+     
+        let botDirection = this.pacbotGetDirection(gridPosition, this.direction, ghostPositions, elapsedMs, ghostModes, this.mazeArray);
 
-      //  let halt = (this.position == this.defaultPosition && !this.moving);
-      if (botDirection)
-        this.changeDirection(botDirection, true);
-      //runBot = false;
+        if (botDirection)
+          this.changeDirection(botDirection, true);
     }
     //---------------bot addition ---------------
 

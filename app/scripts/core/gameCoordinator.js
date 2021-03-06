@@ -897,7 +897,7 @@ class GameCoordinator {
 
       this.allowPacmanMovement = true;
       this.pacman.moving = true;
-
+      this.pacman.allowBotInput = true;
       this.timerDisplay.innerText = this.timeLeft;
       if (!levelReset)
         this.startMatchTimer();
@@ -986,7 +986,7 @@ class GameCoordinator {
    */
   releaseGhost() {
     if (this.idleGhosts.length > 0) {
-      const delay = Math.max((6 - (this.level) * 2) * 1000, 0);
+      const delay = Math.max((8 - (this.level) * 2) * 1000, 0);
 
       this.endIdleTimer = new Timer(() => {
         this.idleGhosts[0].endIdleMode();
@@ -1161,6 +1161,7 @@ class GameCoordinator {
 
     this.allowKeyPresses = false;
     this.pacman.moving = false;
+    this.pacman.allowBotInput = false;
     this.ghosts.forEach((ghost) => {
       const ghostRef = ghost;
       ghostRef.moving = false;
@@ -1243,6 +1244,7 @@ class GameCoordinator {
     this.markBotSrcLines();
 
     this.allowKeyPresses = false;
+    this.pacman.allowBotInput = false;
     this.pacman.moving = false;
     this.ghosts.forEach((ghost) => {
       const ghostRef = ghost;
@@ -1457,7 +1459,7 @@ class GameCoordinator {
       ghost.becomeScared();
     });
 
-    const powerDuration = 3; //Math.max((7 - this.level) * 1000, 0);
+    const powerDuration = 2*1000; //Math.max((7 - this.level) * 1000, 0);
     this.ghostFlashTimer = new Timer(() => {
       this.flashGhosts(0, 9);
     }, powerDuration);
@@ -1502,6 +1504,7 @@ class GameCoordinator {
     this.allowPacmanMovement = false;
     this.pacman.display = false;
     this.pacman.moving = false;
+    this.pacman.allowBotInput = false;
     e.detail.ghost.display = false;
     e.detail.ghost.moving = false;
 
@@ -1521,6 +1524,7 @@ class GameCoordinator {
       this.allowPacmanMovement = true;
       this.pacman.display = true;
       this.pacman.moving = true;
+      this.pacman.allowBotInput = true;
       e.detail.ghost.display = true;
       e.detail.ghost.moving = true;
       this.ghosts.forEach((ghost) => {
