@@ -11,7 +11,7 @@ No Installation required (not even NodeJS)
 ### using different ports:
 * ./static-server -p 54321
 
-<img src="https://github.com/amitbet/codewar2021/blob/master/ScrShot.png" alt="screen shot" width="300" style="width:200px;"/>
+<img src="https://github.com/amitbet/codewar2021/blob/master/ScrShot.png" alt="screen shot" width="500" style="width:500px;"/>
 
 ---
 ## Rulez:
