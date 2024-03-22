@@ -1,5 +1,5 @@
 # Pacman of war 2021
-Pᗣᗧ•••MᗣN clone made with Javascript and HTML, weaponized for CHC CodeWar 2021
+Pᗣᗧ•••MᗣN clone made with Javascript and HTML, weaponized for CodeWar 2021
 
 🍒🍓🍊🍎🍈👾🔔🔑
 
